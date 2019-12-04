@@ -1,8 +1,9 @@
 from flask import render_template,  redirect, url_for
 from app.main import bp
 from app import db
-from app.main.forms import TaskForm
-from app.models import Task
+from app.main.forms import TaskForm, AppointmentForm
+from app.models import Task, Appointment
+from datetime import datetime
 
 
 # Main route of the applicaitons.
@@ -73,3 +74,58 @@ def edit_task(task_id):
     form.task_status_completed.data = current_task.task_status
 
     return render_template("main/todolist_edit_view.html",form=form, task_id = task_id)
+
+
+#
+#  Route for viewing and adding new tasks.
+@bp.route('/appointmentlist', methods=['GET','POST'])
+def appointmentlist():
+    form = AppointmentForm()
+
+    if form.validate_on_submit():
+        # Get the data from the form, and add it to the database.
+        new_appointment = Appointment(appointment_title=form.appointment_title.data,
+                                      appointment_start_date=form.appointment_start_date.data,
+                                      appointment_duration = form.appointment_duration.data,
+                                      appointment_location = form.appointment_location.data,
+                                      customer_name = form.customer_name.data,
+                                      customer_notes = form.customer_notes.data)
+
+        db.session.add(new_appointment)
+        db.session.commit()
+        # Redirect to this handler - but without form submitted - gets a clear form.
+        return redirect(url_for('main.appointmentlist'))
+
+    appointment_list = db.session.query(Appointment).all()
+
+    return render_template("main/appointmentlist.html",appointment_list = appointment_list,form= form)
+
+
+
+@bp.route('/appointmentlist/remove/<int:appointment_id>', methods=['GET','POST'])
+def remove_appointment(appointment_id):
+    # Query database, remove items
+    print(appointment_id)
+    Appointment.query.filter(Appointment.appointment_id == appointment_id).delete()
+    db.session.commit()
+    return redirect(url_for('main.appointmentlist'))
+
+@bp.route('/appointment', methods=['GET','POST'])
+def appointment(appointment_id):
+    form = AppointmentForm()
+
+    if form.validate_on_submit():
+        # Get the data from the form, and add it to the database.
+        new_appointment = Appointment(appointment_title=form.appointment_title.data,
+                                      appointment_start_date=form.appointment_start_date.data,
+                                      appointment_duration = form.appointment_duration.data,
+                                      appointment_location = form.appointment_location.data,
+                                      customer_name = form.customer_name.data,
+                                      customer_notes = form.customer_notes.data)
+
+
+        # Redirect to this handler - but without form submitted - gets a clear form.
+        return redirect(url_for('main.appointment'))
+
+
+    return render_template("main/appointmentlist.html",appointment_list = appointment_list,form= form)
