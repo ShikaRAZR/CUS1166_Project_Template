@@ -1,0 +1,54 @@
+{% extends "bootstrap/base.html" %}
+{% block metas %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Individual Project Template for CUS 1166">
+  <meta name="author" content="Christoforos Christoforou">
+{% endblock  %}
+
+{% block title %}
+  CUS 1166 - Individual or Group Project Template
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('static', filename='css/cus1166_custom.css')}}">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+{% endblock %}
+
+
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">CUS1166 Project</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      {%  block menuitems %}
+
+      {%  endblock menuitems%}
+    </ul>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+    {% block main_content %}
+    {% endblock main_content %}
+      {% block footer %}
+      <!-- Footer -->
+      <footer class="page-footer font-small blue fixed-bottom">
+
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">© 2019 Copyright:
+          <a href="https://www.researchgate.net/profile/Christoforos_Christoforou"> Template project for CUS1166 by Dr. Christoforos Christoforou</a>
+        </div>
+        <!-- Copyright -->
+
+      </footer>
+      <!-- Footer -->
+      {% endblock footer %}
+{% endblock content%}
