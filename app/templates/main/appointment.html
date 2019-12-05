@@ -1,0 +1,72 @@
+{% extends "menu.html" %}
+
+{% block main_content %}
+<link rel="stylesheet", type="text/css", href="{{url_for('static', filename='css/dropdown.css')}}">
+<div class="page-content page-container" id="page-content">
+    <div class="padding">
+        <div class="row container d-flex justify-content-center">
+            <div class="col-lg-12">
+                <div class="card px-3">
+                    <h4>CUS1166 - Appointment - {{appointment.appointment_title}}</h4>
+                    <span><b>Start Date:</b> '{{appointment.appointment_start_date}}'</span>
+                    <span><b>Duration:</b> '{{appointment.appointment_duration}}'</span>
+                    <span><b>Location:</b> '{{appointment.appointment_location}}'</span>
+                    <span><b>Customer Name:</b> '{{appointment.customer_name}}'</span>
+                    <span><b>Notes:</b> '{{appointment.customer_notes}}'</span>
+                    <a href="{{url_for('main.remove_appointment', appointment_id=appointment.appointment_id)}}">Delete</a>
+                </div>
+                <div class="card px-3">
+                    <h4>CUS1166 - Modify Appointment</h4>
+                    <form action="{{url_for('main.appointment', appointment_id=appointment.appointment_id)}}" method="POST" novalidate>
+                    {{form.hidden_tag()}}
+                    <p>
+                        {{form.appointment_title.label}}<br>
+                        {{form.appointment_title(size=40, placeholder="(String Type)", value=appointment.appointment_title)}}<br>
+                        {% for error in form.appointment_title.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{form.appointment_start_date.label}}<br>
+                        {{form.appointment_start_date(size=40, placeholder="(DateTime Type eg. '2019-12-04 15:00:00')", value=appointment.appointment_start_date)}}<br>
+                        {% for error in form.appointment_start_date.errors %}
+                        <span style="color: red;">[{{ error }} Or wrong data type.]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{form.appointment_duration.label}}<br>
+                        {{form.appointment_duration(size=40, placeholder="(String Type)", value=appointment.appointment_duration)}}<br>
+                        {% for error in form.appointment_duration.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{form.appointment_location.label}}<br>
+                        {{form.appointment_location(size=40, placeholder="(String Type)", value=appointment.appointment_location)}}<br>
+                        {% for error in form.appointment_location.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{form.customer_name.label}}<br>
+                        {{form.customer_name(size=40, placeholder="(String Type)", value=appointment.customer_name) }}<br>
+                        {% for error in form.customer_name.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{form.customer_notes.label}}<br>
+                        {{form.customer_notes(size=40, placeholder="(String Type)", value=appointment.customer_notes)}}
+                        {% for error in form.customer_notes.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p><input type="submit", value="Modify"></p>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

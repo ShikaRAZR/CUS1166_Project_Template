@@ -1,0 +1,55 @@
+{% extends "menu.html" %}
+
+{% block main_content %}
+<link rel="stylesheet", type="text/css", href="{{url_for('static', filename='css/dropdown.css')}}">
+<div class="page-content page-container" id="page-content">
+    <div class="padding">
+        <div class="row container d-flex justify-content-center">
+            <div class="col-lg-12">
+                <div class="dropdown">
+                  <button class="dropbtn">Filter By</button>
+                  <div class="dropdown-content">
+                    <a href="{{url_for('main.search_appointment', filterby=0)}}">None</a>
+                    <a href="{{url_for('main.search_appointment', filterby=1)}}">Today</a>
+                    <a href="{{url_for('main.search_appointment', filterby=2)}}">This Week</a>
+                    <a href="{{url_for('main.search_appointment', filterby=3)}}">Overdue</a>
+                  </div>
+                </div>
+                <form action="{{url_for('main.search_appointment', filterby=filterby)}}" method="POST" novalidate>
+                  {{form.hidden_tag()}}
+                  <p>
+                  {{form.search(size=40, placeholder="(Search for Name or Title)")}}
+                  <input type="submit", value="Search">
+                  </p>
+                </form>
+
+                <div class="card px-3">
+                    <h4>CUS1166 - Appointment List
+                      {% if filterby == 0 %}
+                        <span>(No Filter)</span>
+                      {% elif filterby == 1 %}
+                        <span>(Today)</span>
+                      {% elif filterby == 2 %}
+                        <span>(This Week)</span>
+                      {% elif filterby == 3 %}
+                        <span>(Overdue)</span>
+                      {% else %}
+                        <span>(No Filter)</span>
+                      {% endif %}
+                    </h4>
+                    <span>Number of Search Results: {{count}}</span>
+                    {% for appointment in appointment_list %}
+                        <a href="{{url_for('main.appointment', appointment_id=appointment.appointment_id)}}">
+                             <i class="fas fa-edit">{{appointment.appointment_title}}</i>
+                        </a>
+                        <span>Date: {{appointment.appointment_start_date}}</span>
+                        <br>
+                    {% endfor %}
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

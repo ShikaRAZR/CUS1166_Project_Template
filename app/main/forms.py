@@ -19,3 +19,7 @@ class AppointmentForm(FlaskForm):
     customer_name = StringField('Customer Name', validators=[DataRequired()])
     customer_notes = StringField('Customer Notes', validators=[DataRequired()])
     submit = SubmitField('submit')
+
+class SearchForm(FlaskForm):
+    search = StringField('Search')
+    submit = SubmitField('submit')
